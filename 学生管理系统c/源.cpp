@@ -11,13 +11,13 @@
 #define SCORE_FILE "scores.txt"
 #define APPEAL_FILE "appeals.txt"
 
-#define MAX_ID 20
-#define MAX_NAME 50
-#define MAX_PWD 50
-#define MAX_CLASS 30
-#define MAX_COURSE 50
-#define MAX_LINE 256
-#define MAX_REASON 256
+#define MAX_ID 100000
+#define MAX_NAME 100000
+#define MAX_PWD 100000
+#define MAX_CLASS 100000
+#define MAX_COURSE 100000
+#define MAX_LINE 100000
+#define MAX_REASON 100000
 
 // 成绩结构体
 typedef struct Score {

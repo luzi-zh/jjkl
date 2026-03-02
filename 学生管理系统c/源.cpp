@@ -602,7 +602,7 @@ void studentQueryScore(Student* s) {
 }
 
 // 比较函数用于排序学生（按总分降序）
-int compareStudentByTotalScore(const void* a, const void* b) {
+int compareStudentByTotalScore(const void* a, const void* b) {//void* 是「通用指针类型」，可以接收任意类型指针的赋值（比如 int*、Student*、char*），不用为每种类型单独写回调函数，实现通用性。
     Student* sa = *(Student**)a;
     Student* sb = *(Student**)b;
     if (sa->totalScore > sb->totalScore) return -1;
@@ -610,10 +610,13 @@ int compareStudentByTotalScore(const void* a, const void* b) {
     return 0;
 }
 
+//同班同学成绩排名
 void studentQueryClassScore(Student* s) {
     printf("\n=== 本班成绩查询 ===\n");
     int count = 0;
     Student* curr = studentHead;
+
+    //计算本班学生数
     while (curr) {
         if (strcmp(curr->className, s->className) == 0) count++;
         curr = curr->next;
@@ -647,6 +650,7 @@ void studentQueryClassScore(Student* s) {
     free(arr);
 }
 
+//成绩分析
 void studentScoreAnalysis(Student* s) {
     printf("\n=== 成绩分析（条形图）===\n");
     if (!s->scoreHead) {
@@ -663,6 +667,7 @@ void studentScoreAnalysis(Student* s) {
     }
 }
 
+//修改密码
 void studentChangePassword(Student* s) {
     printf("\n=== 密码修改 ===\n");
     char oldPwd[MAX_PWD], newPwd[MAX_PWD];
@@ -679,6 +684,7 @@ void studentChangePassword(Student* s) {
     printf("密码修改成功！\n");
 }
 
+//申诉
 void studentAppeal(Student* s) {
     printf("\n=== 成绩申诉 ===\n");
     if (!s->scoreHead) {
@@ -719,6 +725,7 @@ void studentAppeal(Student* s) {
     printf("申诉已提交，等待教师或管理员处理。\n");
 }
 
+//学生登录后功能版面
 void studentMenu(Student* s) {
     int choice;
     while (1) {
@@ -746,6 +753,8 @@ void studentMenu(Student* s) {
 }
 
 // ==================== 教师端功能 ====================
+
+//教师新增学生
 void teacherAddStudent(Teacher* t) {
     printf("\n=== 新增学生 ===\n");
     char id[MAX_ID], name[MAX_NAME], pwd[MAX_PWD];
@@ -763,6 +772,7 @@ void teacherAddStudent(Teacher* t) {
     printf("新增学生成功\n");
 }
 
+//删除学生
 void teacherDeleteStudent(Teacher* t) {
     printf("\n=== 删除学生 ===\n");
     char id[MAX_ID];
@@ -777,6 +787,7 @@ void teacherDeleteStudent(Teacher* t) {
     printf("删除学生成功\n");
 }
 
+//修改学生信息
 void teacherModifyStudent(Teacher* t) {
     printf("\n=== 修改学生信息 ===\n");
     char id[MAX_ID];
@@ -807,6 +818,7 @@ void teacherModifyStudent(Teacher* t) {
     printf("修改学生信息成功\n");
 }
 
+//查看本班成绩
 void teacherViewClassScore(Teacher* t) {
     printf("\n=== 本班成绩查看（分页显示）===\n");
     int count = 0;
@@ -836,7 +848,7 @@ void teacherViewClassScore(Teacher* t) {
     }
 
     int pageSize = 5;
-    int totalPages = (count + pageSize - 1) / pageSize;
+    int totalPages = (count + pageSize - 1) / pageSize;//向上取整
     int currentPage = 1;
     int choice;
 
@@ -879,6 +891,7 @@ void teacherViewClassScore(Teacher* t) {
     free(arr);
 }
 
+//录入成绩
 void teacherAddScore(Teacher* t) {
     printf("\n=== 录入成绩 ===\n");
     char id[MAX_ID], course[MAX_COURSE];
@@ -930,9 +943,10 @@ void teacherAddScore(Teacher* t) {
     }
 }
 
+//导出学生信息
 void teacherExportStudents(Teacher* t) {
     printf("\n=== 导出学生信息 ===\n");
-    char filename[100];
+    char filename[100000];
     printf("导出文件名："); scanf("%s", filename);
     FILE* fp = fopen(filename, "w");
     if (!fp) {
@@ -953,6 +967,7 @@ void teacherExportStudents(Teacher* t) {
     printf("导出成功\n");
 }
 
+//修改密码
 void teacherChangePassword(Teacher* t) {
     printf("\n=== 密码修改 ===\n");
     char oldPwd[MAX_PWD], newPwd[MAX_PWD];
@@ -969,6 +984,7 @@ void teacherChangePassword(Teacher* t) {
     printf("密码修改成功！\n");
 }
 
+//成绩分析(平均分)
 void teacherScoreAnalysis(Teacher* t) {
     printf("\n=== 班级成绩分析（各科平均分）===\n");
 #define MAX_COURSES 50
@@ -1025,6 +1041,7 @@ void teacherScoreAnalysis(Teacher* t) {
     }
 }
 
+//处理申诉
 void teacherViewAppeals(Teacher* t) {
     printf("\n=== 本班待处理申诉 ===\n");
     int found = 0;
@@ -1075,6 +1092,7 @@ void teacherViewAppeals(Teacher* t) {
     if (!found) printf("暂无待处理申诉。\n");
 }
 
+//教师功能面板
 void teacherMenu(Teacher* t) {
     int choice;
     while (1) {
@@ -1118,6 +1136,8 @@ void teacherMenu(Teacher* t) {
 }
 
 // ==================== 管理员端功能 ====================
+
+//管理员注册学生/教师账户
 void adminRegisterAccount() {
     printf("\n=== 账号注册（管理员端）===\n");
     char type[10], id[MAX_ID], name[MAX_NAME], pwd[MAX_PWD], className[MAX_CLASS];
@@ -1152,6 +1172,7 @@ void adminRegisterAccount() {
     printf("注册成功\n");
 }
 
+//找回密码
 void adminFindPassword() {
     printf("\n=== 密码找回 ===\n");
     char type[10], id[MAX_ID], name[MAX_NAME];
@@ -1193,6 +1214,7 @@ void adminFindPassword() {
     }
 }
 
+//处理申诉
 void adminScoreAppeal() {
     printf("\n=== 成绩申诉处理 ===\n");
     // 显示所有待处理申诉
@@ -1243,6 +1265,7 @@ void adminScoreAppeal() {
     if (!found) printf("暂无待处理申诉。\n");
 }
 
+//修改密码(所有用户)
 void adminModifyPassword() {
     printf("\n=== 密码修改 ===\n");
     char type[10], id[MAX_ID], oldPwd[MAX_PWD], newPwd[MAX_PWD];
@@ -1291,6 +1314,7 @@ void adminModifyPassword() {
     }
 }
 
+//管理用户
 void adminCRUD() {
     printf("\n=== 增删改查账号及学生信息 ===\n");
     int choice;
@@ -1419,6 +1443,7 @@ void adminImportFromFile() {
     printf("录入成功\n");
 }
 
+//导出所有账户信息到文件
 void adminExportToFile() {
     printf("\n=== 导出所有账号密码到文件 ===\n");
     char filename[100];
@@ -1449,6 +1474,7 @@ void adminExportToFile() {
     printf("导出成功\n");
 }
 
+//管理员登录教师端
 void adminLoginTeacher() {
     printf("\n=== 登录教师端 ===\n");
     char id[MAX_ID], pwd[MAX_PWD];
@@ -1463,6 +1489,7 @@ void adminLoginTeacher() {
     }
 }
 
+//管理员功能面板
 void adminMenu() {
     int choice;
     while (1) {
